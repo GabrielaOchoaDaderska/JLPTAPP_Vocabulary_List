@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiszki Japońskie</title>
+
+<link href="https://fonts.googleapis.com/css?family=Jost&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
+
+
+<style>
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+    html, body {
+        height: 100%;
+ width: 100%;
+        font-family: 'Jost', sans-serif;
+        background-color: white;
+    }
+
+ 
+    .hero {
+        width: 100%;
+        height: 100%; 
+        background-image: url('images/v1_19.png');
+        background-size: cover; 
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .hero h1 {
+        font-family: 'Fredoka One', cursive;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .hero h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 32px;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .hero p {
+        font-size: 16px;
+        max-width: 700px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .hero a {
+        color: #ffd700;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 10px;
+        display: inline-block;
+    }
+
+    .hero a:hover {
+        text-decoration: underline;
+    }
+
+    .button {
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    .button1 {background-color: #b02a5a;} 
+
+    .content {
+        padding: 40px 20px;
+        text-align: center;
+        background:#ffeef2;
+    }
+
+    h1,h2 { text-align:center; color:#d6336c;}
+    label{display:block;margin-top:10px;font-weight:bold;color:#d6336c;}
+    input, textarea {width:100%;padding:8px;font-size:16px;margin-top:4px;border-radius:6px;border:1px solid #ddd; background:white;}
+    .form-card {border-radius:10px;padding:20px;margin-top:10px;background:#ffd6e7; box-shadow:0 4px 6px rgba(0,0,0,0.1);}
+    button.fiszka-btn{padding:8px 12px;margin-top:10px; cursor:pointer; border:none; border-radius:6px; background:#d6336c; color:white; transition:0.3s;}
+    button.fiszka-btn:hover{background:#b02a5a;}
+    .card {border:1px solid #ccc;border-radius:8px;padding:10px;margin-top:10px;background:white; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+    .tag {background:#ffe0f0;padding:3px 6px;margin:2px;border-radius:4px;display:inline-block;color:#d6336c;}
+    .quiz-card {border:1px solid #666;padding:15px;border-radius:8px;margin-top:20px;background:white; box-shadow:0 2px 6px rgba(0,0,0,0.15);}
+    .correct {background:#c8f7c5;}
+    .wrong {background:#f7c5c5;}
+    #quizBox input {margin-top:10px;width:70%;display:inline-block; border-radius:6px; border:1px solid #ddd;}
+    #quizBox button {display:inline-block;margin-left:10px;}
+    #list .card {display:flex;justify-content:space-between;align-items:flex-start;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>Fiszki japońskie</h1>
+    <p>このページは日本語学習用のフラッシュカード専用です。いかなる誤りについても責任を負いません。苦情や異議申し立ては受け付けておりません。</p>
+    <a href="https://github.com/GabrielaOchoaDaderska/JLPTAPP_Vocabulary_List" target="_blank">
+        <button class="button button1">Repozytorium</button>
+    </a>
+</div>
+
+
+<div class="content">
+<h1>Wpisz słowo</h1>
+
+<div class="form-card">
+  <label>Polskie tłumaczenie</label>
+  <input id="pol" type="text" placeholder="np. kot">
+
+  <label>Hiragana</label>
+  <input id="hir" type="text" placeholder="np. ねこ">
+
+  <label>Katakana</label>
+  <input id="kat" type="text" placeholder="np. ネコ">
+
+  <label>Kanji</label>
+  <input id="kanji" type="text" placeholder="np. 猫">
+
+  <label>Romaji</label>
+  <input id="romaji" type="text" placeholder="np. neko">
+
+  <label>Tagi (folksonomia, rozdziel przecinkami)</label>
+  <input id="tags" type="text" placeholder="np. zwierzę, N5, codzienne">
+
+  <button class="fiszka-btn" onclick="saveCard()">Zapisz fiszkę</button>
+  <button class="fiszka-btn" onclick="exportJSON()">Pobierz JSON</button>
+  <button class="fiszka-btn" onclick="loadJSON()">Wczytaj JSON</button>
+  <input type="file" id="importFile" accept="application/json" class="hidden">
+</div>
+
+<div id="status" style="margin-top:10px;color:#d6336c;font-weight:bold"></div>
+
+<h2>Lista fiszek</h2>
+<div id="list"></div>
+
+<div id="quizStartBox" style="margin-top:20px"></div>
+<div id="quizBox"></div>
+
+</div>
+<footer style="background:#d6336c; color:white; text-align:center; padding:20px 10px; margin-top:40px; font-family:'Jost', sans-serif;">
+    <p>© 2025 Fiszki Japońskie. Wszystkie prawa zastrzeżone.</p>
+    <p>
+        <a href="https://github.com/GabrielaOchoaDaderska/JLPTAPP_Vocabulary_List" target="_blank" 
+           style="color:#ffd700; text-decoration:none; font-weight:bold;">Repozytorium GitHub</a>
+    </p>
+</footer>
+<script>
+const STORAGE_KEY = "flashcards_jp_browser";
+let cards = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+function saveAll() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(cards, null,2));
+  renderList();
+  updateQuizButton();
+}
+
+
+
+function saveCard() {
+  const card = {
+    polish: document.getElementById("pol").value.trim(),
+    hiragana: document.getElementById("hir").value.trim(),
+    katakana: document.getElementById("kat").value.trim(),
+    kanji: document.getElementById("kanji").value.trim(),
+    romaji: document.getElementById("romaji").value.trim(),
+    tags: document.getElementById("tags").value.split(",").map(t=>t.trim()).filter(t=>t),
+    selected:false
+  };
+  if(!card.polish) return alert("Wpisz polskie tłumaczenie");
+  cards.push(card);
+  saveAll();
+  clearForm();
+  setStatus("Fiszka zapisana");
+}
+
+function clearForm(){
+  ["pol","hir","kat","kanji","romaji","tags"].forEach(id=>document.getElementById(id).value="");
+}
+
+function setStatus(msg){ document.getElementById("status").textContent=msg;}
+
+
+function renderList(){
+  const list=document.getElementById("list");
+  list.innerHTML="";
+  if(!cards.length){ list.innerHTML="<i>Brak fiszek</i>"; return;}
+  const sorted = [...cards].sort((a,b)=>{
+    const t1=a.tags[0]||"zz"; const t2=b.tags[0]||"zz";
+    return t1.localeCompare(t2);
+  });
+  sorted.forEach((c,i)=>{
+    const div=document.createElement("div");
+    div.className="card";
+    div.innerHTML=`
+      <div>
+        <b style="font-size:18px">${c.kanji||c.hiragana||c.katakana||c.romaji}</b>
+        <div><small>${c.hiragana} ${c.katakana} ${c.romaji}</small></div>
+        <div><b>PL:</b> ${c.polish}</div>
+        <div>${c.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+      </div>
+      <div>
+        <button onclick="toggleSelect(${i})">${c.selected?"Odznacz":"Zaznacz do quizu"}</button><br>
+        <button onclick="removeCard(${i})" style="color:#b00">Usuń</button>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function toggleSelect(i){ cards[i].selected=!cards[i].selected; saveAll();}
+function removeCard(i){ if(!confirm("Usunąć fiszkę?")) return; cards.splice(i,1); saveAll();}
+
+
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(cards,null,2)], {type:"application/json"});
+  const a=document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "pamięć.json";
+  a.click();
+}
+
+function loadJSON(){
+  document.getElementById("importFile").click();
+}
+
+document.getElementById("importFile").addEventListener("change", ev=>{
+  const file=ev.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{ cards = JSON.parse(e.target.result); saveAll(); setStatus("Zaimportowano JSON."); }
+    catch(err){ alert("Błąd JSON"); }
+  };
+  reader.readAsText(file);
+});
+
+
+function updateQuizButton(){
+  const area=document.getElementById("quizStartBox");
+  const count = cards.filter(c=>c.selected).length;
+  if(count===0){ area.innerHTML=""; return;}
+  area.innerHTML=`<button onclick="startQuiz()">Start quiz (${count} fiszek)</button>`;
+}
+
+let quizData=[]; let quizIndex=0;
+
+function startQuiz(){
+  quizData=cards.filter(c=>c.selected);
+  if(!quizData.length) return;
+  quizIndex=0;
+  showQuizCard();
+}
+
+function showQuizCard(){
+  const box=document.getElementById("quizBox");
+  if(quizIndex>=quizData.length){ box.innerHTML="<h2>Koniec quizu!</h2>"; return;}
+  const q=quizData[quizIndex];
+  box.innerHTML=`<div class="quiz-card" id="currentQuiz">
+      <h3>Pytanie ${quizIndex+1} / ${quizData.length}</h3>
+      <div style="font-size:30px;margin-bottom:10px;">${q.kanji||q.hiragana||q.katakana||q.romaji}</div>
+      <input id="quizAns" placeholder="Odpowiedź po polsku">
+      <button onclick="checkQuiz()">Sprawdź</button>
+      <div id="quizFeedback" style="margin-top:10px;font-weight:bold;"></div>
+    </div>`;
+}
+
+function checkQuiz(){
+  const q=quizData[quizIndex];
+  const user=document.getElementById("quizAns").value.trim().toLowerCase();
+  const correct=q.polish.toLowerCase();
+  const feedback=document.getElementById("quizFeedback");
+  const cardDiv=document.getElementById("currentQuiz");
+  if(user===correct){
+    feedback.textContent="Dobrze! ✅";
+    cardDiv.classList.add("correct");
+    quizIndex++;
+    setTimeout(showQuizCard,1000);
+  } else{
+    feedback.textContent=`Źle ❌, poprawna: ${q.polish}`;
+    cardDiv.classList.add("wrong");
+  }
+}
+
+
+renderList();
+updateQuizButton();
+</script>
+
+
+
+</body>
+</html>
