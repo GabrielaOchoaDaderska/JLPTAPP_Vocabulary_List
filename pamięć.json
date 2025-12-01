@@ -1,0 +1,24 @@
+[
+  {
+    "polish": "deszcz",
+    "hiragana": "あめ",
+    "katakana": "",
+    "kanji": "",
+    "romaji": "ame",
+    "tags": [
+      "pogoda"
+    ],
+    "selected": true
+  },
+  {
+    "polish": "kot",
+    "hiragana": "ねこ",
+    "katakana": "",
+    "kanji": "猫",
+    "romaji": "neko",
+    "tags": [
+      "zwierzę"
+    ],
+    "selected": false
+  }
+]
