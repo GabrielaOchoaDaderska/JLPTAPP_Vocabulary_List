@@ -1,6 +1,6 @@
 # Fiszki do japońskiego
 
-## Program do użycia samodzielnego na komputerze, zczytujący z pliku json. Styl japoński
+## Program do użycia samodzielnego na komputerze, zczytujący z pliku json. Użyto: HTML5, JS, CSS
 
 ### Strona główna (góra)
 <img width="1888" height="884" alt="image" src="https://github.com/user-attachments/assets/54273f92-83dd-44ae-b27f-f7a8a17d641a" />
